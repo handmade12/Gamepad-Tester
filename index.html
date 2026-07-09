@@ -399,7 +399,7 @@ footer .socials a:hover{
 }
 footer .socials a .ico{font-size:15px}
 
-/* ===== HELP SECTION ===== */
+/* ===== HELP MODAL ===== */
 .help-btn{
   padding:6px 10px;border-radius:6px;
   border:1px solid transparent;background:transparent;
@@ -409,21 +409,36 @@ footer .socials a .ico{font-size:15px}
 .help-btn:hover{color:var(--cyan);background:var(--glass)}
 .help-btn.active{color:var(--cyan);border-color:rgba(0,240,255,0.3);background:rgba(0,240,255,0.06)}
 
-.help-section{
-  background:var(--surface);backdrop-filter:blur(20px);
-  -webkit-backdrop-filter:blur(20px);
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:22px;box-shadow:var(--shadow);position:relative;z-index:1;
-  display:none;overflow-anchor:none;
+.help-overlay{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  justify-content:center;align-items:center;
 }
-.help-section.open{display:block}
-.help-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+.help-overlay.open{display:flex}
+
+.help-modal{
+  background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px;
+  max-width:720px;width:90%;max-height:85vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,0.6);position:relative;
+}
+.help-close{
+  position:absolute;top:12px;right:16px;
+  background:none;border:none;color:var(--text-dim);
+  font-size:28px;cursor:pointer;font-family:inherit;line-height:1;
+  padding:4px 8px;border-radius:6px;transition:.2s;
+}
+.help-close:hover{color:var(--cyan);background:var(--glass)}
+.help-modal h3{font-size:20px;font-weight:700;color:var(--text);margin-bottom:18px;padding-right:40px}
+
+.help-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
 .help-card{
-  background:rgba(0,0,0,0.2);border-radius:10px;
+  background:rgba(0,0,0,0.25);border-radius:10px;
   border:1px solid var(--border);padding:16px;
 }
 .help-card-icon{font-size:28px;margin-bottom:8px}
-.help-card h4{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px}
+.help-card h4{font-size:14px;font-weight:600;color:var(--text);margin-bottom:8px}
 .help-card ul{list-style:none;padding:0;margin:0}
 .help-card ul li{
   font-size:13px;color:var(--text-dim);line-height:1.5;
@@ -432,8 +447,6 @@ footer .socials a .ico{font-size:15px}
 .help-card ul li::before{
   content:'›';position:absolute;left:0;color:var(--cyan);font-weight:700;
 }
-.help-card ul li a{color:var(--cyan);text-decoration:none}
-.help-card ul li a:hover{text-decoration:underline}
 .help-tip{
   font-size:13px;color:var(--text-dim);line-height:1.5;
   margin-top:14px;padding:10px 14px;
@@ -441,7 +454,11 @@ footer .socials a .ico{font-size:15px}
   border:1px solid rgba(0,240,255,0.08);
 }
 
-/* ===== RESPONSIVE ===== */
+@media(max-width:700px){
+  .help-grid{grid-template-columns:1fr}
+  .help-modal{padding:20px;max-width:95%}
+  .help-modal h3{font-size:17px}
+}
 @media(max-width:900px){
   .info-panel{grid-template-columns:1fr 1fr}
   footer{flex-direction:column;text-align:center}
@@ -640,26 +657,30 @@ footer .socials a .ico{font-size:15px}
     </div>
   </div>
 
-  <!-- HELP SECTION -->
-  <div class="help-section" id="helpSection">
-    <div class="help-grid">
-      <div class="help-card">
-        <div class="help-card-icon">🎮</div>
-        <h4 data-i18n="helpXbox">Xbox</h4>
-        <ul class="help-list" data-help="xbox"></ul>
+  <!-- HELP MODAL -->
+  <div class="help-overlay" id="helpOverlay">
+    <div class="help-modal" id="helpModal">
+      <button class="help-close" id="helpClose">&times;</button>
+      <h3 data-i18n="helpTitle">Как подключить геймпад</h3>
+      <div class="help-grid">
+        <div class="help-card">
+          <div class="help-card-icon">🎮</div>
+          <h4 data-i18n="helpXbox">Xbox</h4>
+          <ul class="help-list" data-help="xbox"></ul>
+        </div>
+        <div class="help-card">
+          <div class="help-card-icon">🎮</div>
+          <h4 data-i18n="helpPS">PlayStation</h4>
+          <ul class="help-list" data-help="ps"></ul>
+        </div>
+        <div class="help-card">
+          <div class="help-card-icon">🎮</div>
+          <h4 data-i18n="helpOther">Другие</h4>
+          <ul class="help-list" data-help="other"></ul>
+        </div>
       </div>
-      <div class="help-card">
-        <div class="help-card-icon">🎮</div>
-        <h4 data-i18n="helpPS">PlayStation</h4>
-        <ul class="help-list" data-help="ps"></ul>
-      </div>
-      <div class="help-card">
-        <div class="help-card-icon">🎮</div>
-        <h4 data-i18n="helpOther">Другие (8BitDo и т.д.)</h4>
-        <ul class="help-list" data-help="other"></ul>
-      </div>
+      <div class="help-tip" data-i18n="helpTip">💡 Геймпад должен быть подключён ДО открытия сайта или нажми любую кнопку после подключения. Если не работает — перезагрузи страницу.</div>
     </div>
-    <div class="help-tip" data-i18n="helpTip">💡 Геймпад должен быть подключён ДО открытия сайта или нажми любую кнопку после подключения. Если не работает — перезагрузи страницу.</div>
   </div>
 
   <!-- FOOTER -->
@@ -692,6 +713,7 @@ const LANG = {
     ctrlSelect:'SELECT',ctrlShare:'SHARE',ctrlStart:'START',ctrlOptions:'OPTIONS',
     connectedAs:'Подключён как',
     hint:'Большинство геймпадов определяется как Xbox 360 — это нормально.',
+    helpTitle:'Как подключить геймпад',
     helpXbox:'Xbox',
     helpXboxList:'Подключи USB-кабель — Windows определит автоматически|Bluetooth: зажми кнопку синхронизации на геймпаде|Пуск → Bluetooth → Добавить → Xbox Wireless Controller|Или используй Xbox Wireless Adapter для ПК',
     helpPS:'PlayStation',
@@ -711,7 +733,7 @@ const LANG = {
     ctrlSelect:'SELECT',ctrlShare:'SHARE',ctrlStart:'START',ctrlOptions:'OPTIONS',
     connectedAs:'Connected as',
     hint:'Most gamepads are detected as Xbox 360 — this is normal.',
-    helpXbox:'Xbox',
+    helpTitle:'How to connect a gamepad',
     helpXboxList:'Connect USB cable — Windows detects automatically|Press sync button on the gamepad for Bluetooth|Start → Bluetooth → Add → Xbox Wireless Controller|Or use Xbox Wireless Adapter for PC',
     helpPS:'PlayStation',
     helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
@@ -735,7 +757,8 @@ const LANG = {
     helpPS:'PlayStation',
     helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
     helpOther:'其他 (8BitDo等)',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available).Connect USB or Bluetooth.For Bluetooth: press Pair button.Most gamepads detect as Xbox 360 — this is normal',
+    helpTitle:'如何连接手柄',
+    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
     helpTip:'💡 在打开网站之前连接游戏手柄，或在连接后按下任意按钮。如果不起作用，请刷新页面。'
   },
   es: {
@@ -754,7 +777,8 @@ const LANG = {
     helpPS:'PlayStation',
     helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
     helpOther:'Otros (8BitDo etc.)',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available).Connect USB or Bluetooth.For Bluetooth: press Pair button.Most gamepads detect as Xbox 360 — this is normal',
+    helpTitle:'Cómo conectar un mando',
+    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
     helpTip:'💡 Conecta el mando ANTES de abrir el sitio, o presiona cualquier botón después de conectar. Si no funciona — recarga la página.'
   },
   ja: {
@@ -773,7 +797,8 @@ const LANG = {
     helpPS:'PlayStation',
     helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
     helpOther:'その他 (8BitDoなど)',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available).Connect USB or Bluetooth.For Bluetooth: press Pair button.Most gamepads detect as Xbox 360 — this is normal',
+    helpTitle:'ゲームパッドの接続方法',
+    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
     helpTip:'💡 サイトを開く前にゲームパッドを接続するか、接続後に任意のボタンを押してください。動作しない場合はページを再読み込みしてください。'
   }
 };
@@ -1063,14 +1088,15 @@ function init() {
     btn.addEventListener('click', () => applyLang(btn.dataset.lang));
   });
 
-  // help toggle
+  // help modal
   const helpToggle = document.getElementById('helpToggle');
-  const helpSection = document.getElementById('helpSection');
-  if (helpToggle && helpSection) {
-    helpToggle.addEventListener('click', () => {
-      const open = helpSection.classList.toggle('open');
-      helpToggle.classList.toggle('active', open);
-    });
+  const helpOverlay = document.getElementById('helpOverlay');
+  const helpClose = document.getElementById('helpClose');
+  if (helpToggle && helpOverlay) {
+    const closeHelp = () => { helpOverlay.classList.remove('open'); helpToggle.classList.remove('active'); };
+    helpToggle.addEventListener('click', (e) => { e.stopPropagation(); helpOverlay.classList.toggle('open'); helpToggle.classList.toggle('active'); });
+    if (helpClose) helpClose.addEventListener('click', closeHelp);
+    helpOverlay.addEventListener('click', (e) => { if (e.target === helpOverlay) closeHelp(); });
   }
 
   // gamepad events
