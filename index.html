@@ -17,7 +17,7 @@
   --text:#d0d0f0;--text-dim:rgba(208,208,240,0.5);
   --radius:14px;--shadow:0 8px 40px rgba(0,0,0,0.6);
 }
-html,body{height:100%}
+html,body{height:100%;overflow-anchor:none}
 body{
   font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
   background:var(--bg);color:var(--text);
@@ -414,7 +414,7 @@ footer .socials a .ico{font-size:15px}
   -webkit-backdrop-filter:blur(20px);
   border:1px solid var(--border);border-radius:var(--radius);
   padding:22px;box-shadow:var(--shadow);position:relative;z-index:1;
-  display:none;
+  display:none;overflow-anchor:none;
 }
 .help-section.open{display:block}
 .help-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
