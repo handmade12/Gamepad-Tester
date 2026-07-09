@@ -852,10 +852,12 @@ function applyLang(lang) {
   document.documentElement.lang = lang;
 
   // help section lists
+  const helpKey = k => k === 'ps' ? 'PS' : k.charAt(0).toUpperCase() + k.slice(1);
   ['xbox','ps','other'].forEach(key => {
     const list = document.querySelector(`.help-list[data-help="${key}"]`);
-    if (list && t[`help${key.charAt(0).toUpperCase()+key.slice(1)}List`]) {
-      const items = t[`help${key.charAt(0).toUpperCase()+key.slice(1)}List`].split('|');
+    const ikey = 'help' + helpKey(key) + 'List';
+    if (list && t[ikey]) {
+      const items = t[ikey].split('|');
       list.innerHTML = items.map(item => `<li>${item}</li>`).join('');
     }
   });
