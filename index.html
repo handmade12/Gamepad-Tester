@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2300f0ff' d='M17 6H7a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h2.5a2.5 2.5 0 0 0 2.5-2.5v-1h2v1a2.5 2.5 0 0 0 2.5 2.5H17a5 5 0 0 0 5-5v-2a5 5 0 0 0-5-5m-10 7H5v-2h2m3 0h2v2h-2m7 0h-2v-2h2'/%3E%3C/svg%3E">
-<title>Gamepad Tester</title>
+<title data-i18n="title">Gamepad Tester</title>
 <style>
 /* ===== RESET ===== */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -170,7 +170,7 @@ header h1 span{font-size:26px}
 /* ===== SHOULDERS ===== */
 .shoulder-row{
   display:flex;justify-content:space-between;
-  width:100%;max-width:600px;position:relative;z-index:1;
+  width:min(100%,600px);margin:0 auto;position:relative;z-index:1;
   gap:12px;
 }
 .shoulder-group{display:flex;gap:8px}
@@ -201,7 +201,7 @@ header h1 span{font-size:26px}
 /* ===== MAIN CONTROLS ===== */
 .main-row{
   display:flex;justify-content:space-between;align-items:flex-start;
-  width:100%;max-width:600px;position:relative;z-index:1;
+  width:min(100%,600px);margin:0 auto;position:relative;z-index:1;
   gap:14px;
 }
 .col-left,.col-right{
@@ -400,6 +400,17 @@ footer .socials a:hover{
 footer .socials a .ico{font-size:15px}
 
 /* ===== HELP MODAL ===== */
+.vibe-btn{
+  padding:6px 10px;border-radius:6px;
+  border:1px solid transparent;background:transparent;
+  color:var(--text-dim);font-size:18px;
+  cursor:pointer;transition:.2s;font-family:inherit;line-height:1;
+}
+.vibe-btn:hover{color:var(--green);background:var(--glass)}
+.vibe-btn.active{color:var(--green);border-color:rgba(0,255,136,0.3);background:rgba(0,255,136,0.06)}
+.vibe-btn.vibing{animation:vibePulse .35s ease-in-out 4}
+@keyframes vibePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.25)}}
+
 .help-btn{
   padding:6px 10px;border-radius:6px;
   border:1px solid transparent;background:transparent;
@@ -453,6 +464,7 @@ footer .socials a .ico{font-size:15px}
   background:rgba(0,240,255,0.04);border-radius:8px;
   border:1px solid rgba(0,240,255,0.08);
 }
+
 
 @media(max-width:700px){
   .help-grid{grid-template-columns:1fr}
@@ -527,6 +539,9 @@ footer .socials a .ico{font-size:15px}
     <span class="lang-sep"></span>
     <button class="lang-btn" data-lang="ja">日本語</button>
     <span class="lang-sep"></span>
+    <button class="vibe-btn" id="vibeBtn" title="Test vibration">📳</button>
+    <span class="lang-sep"></span>
+
     <button class="help-btn" id="helpToggle">📖</button>
   </div>
 
@@ -678,6 +693,7 @@ footer .socials a .ico{font-size:15px}
           <h4 data-i18n="helpOther">Другие</h4>
           <ul class="help-list" data-help="other"></ul>
         </div>
+
       </div>
       <div class="help-tip" data-i18n="helpTip">💡 Геймпад должен быть подключён ДО открытия сайта или нажми любую кнопку после подключения. Если не работает — перезагрузи страницу.</div>
     </div>
@@ -693,7 +709,7 @@ footer .socials a .ico{font-size:15px}
       <a href="https://t.me/Mrx_20k" target="_blank" rel="noopener"><span class="ico">✈</span> Telegram</a>
       <a href="https://www.instagram.com/mrx_20k/" target="_blank" rel="noopener"><span class="ico">📷</span> Instagram</a>
       <a href="https://www.linkedin.com/in/kirill-sorokin-" target="_blank" rel="noopener"><span class="ico">▤</span> LinkedIn</a>
-      <a href="mailto:SorokinyKirilly@icloud.com"><span class="ico">✉</span> Mail</a>
+      <a href="mailto:SorokinyKirilly@icloud.com"><span class="ico">✉</span> <span data-i18n="socialMail">Mail</span></a>
     </div>
   </footer>
 
@@ -720,7 +736,9 @@ const LANG = {
     helpPSList:'Подключи USB — Windows определит как аудиоустройство|Bluetooth: зажми PS + Share (DS4) или Create + PS (DualSense)|Рекомендуется DS4Windows для полной совместимости|DualSense работает в играх с нативной поддержкой',
     helpOther:'Другие (8BitDo и т.д.)',
     helpOtherList:'Переведи геймпад в режим Xbox (если есть переключатель)|Подключи USB или Bluetooth|Для Bluetooth: зажми Pair (синхронизация)|Большинство определяется как Xbox 360 — это нормально',
-    helpTip:'💡 Геймпад должен быть подключён ДО открытия сайта или нажми любую кнопку после подключения. Если не работает — перезагрузи страницу.'
+    helpTip:'💡 Геймпад должен быть подключён ДО открытия сайта или нажми любую кнопку после подключения. Если не работает — перезагрузи страницу.',
+    socialMail:'Почта',
+
   },
   en: {
     title:'Gamepad Tester',statusWaiting:'Waiting for gamepad',statusConnected:'Connected',
@@ -739,7 +757,9 @@ const LANG = {
     helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
     helpOther:'Other (8BitDo etc.)',
     helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
-    helpTip:'💡 Connect gamepad BEFORE opening the site, or press any button after connecting. If it doesn\'t work — refresh the page.'
+    helpTip:'💡 Connect gamepad BEFORE opening the site, or press any button after connecting. If it doesn\'t work — refresh the page.',
+    socialMail:'Mail',
+
   },
   zh: {
     title:'手柄测试器',statusWaiting:'等待手柄',statusConnected:'已连接',
@@ -753,13 +773,15 @@ const LANG = {
     connectedAs:'连接为',
     hint:'大多数手柄被检测为 Xbox 360 — 这是正常的。',
     helpXbox:'Xbox',
-    helpXboxList:'Connect USB cable — Windows detects automatically|Press sync button on the gamepad for Bluetooth|Start → Bluetooth → Add → Xbox Wireless Controller|Or use Xbox Wireless Adapter for PC',
+    helpXboxList:'连接USB线 — Windows 自动识别|按住手柄上的同步按钮进行蓝牙配对|开始 → 蓝牙 → 添加设备 → Xbox Wireless Controller|或使用 Xbox Wireless Adapter 连接电脑',
     helpPS:'PlayStation',
-    helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
+    helpPSList:'连接USB — Windows 识别为音频设备|蓝牙：按住 PS + Share (DS4) 或 Create + PS (DualSense)|建议使用 DS4Windows 实现完全兼容|DualSense 在支持原生的游戏中可用',
     helpOther:'其他 (8BitDo等)',
     helpTitle:'如何连接手柄',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
-    helpTip:'💡 在打开网站之前连接游戏手柄，或在连接后按下任意按钮。如果不起作用，请刷新页面。'
+    helpOtherList:'将手柄切换到 Xbox 模式（如有切换开关）|通过 USB 或蓝牙连接|蓝牙：按住 Pair 配对键|大多数手柄被识别为 Xbox 360 — 这是正常的',
+    helpTip:'💡 在打开网站之前连接游戏手柄，或在连接后按下任意按钮。如果不起作用，请刷新页面。',
+    socialMail:'邮箱',
+
   },
   es: {
     title:'Probador de Gamepad',statusWaiting:'Esperando gamepad',statusConnected:'Conectado',
@@ -773,13 +795,15 @@ const LANG = {
     connectedAs:'Conectado como',
     hint:'La mayoría de mandos se detectan como Xbox 360 — es normal.',
     helpXbox:'Xbox',
-    helpXboxList:'Connect USB cable — Windows detects automatically|Press sync button on the gamepad for Bluetooth|Start → Bluetooth → Add → Xbox Wireless Controller|Or use Xbox Wireless Adapter for PC',
+    helpXboxList:'Conecta el cable USB — Windows lo detecta automáticamente|Presiona el botón de sincronización en el mando para Bluetooth|Inicio → Bluetooth → Agregar → Control inalámbrico Xbox|O usa el Adaptador inalámbrico Xbox para PC',
     helpPS:'PlayStation',
-    helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
+    helpPSList:'Conecta por USB — Windows lo detecta como dispositivo de audio|Bluetooth: mantén presionado PS + Share (DS4) o Create + PS (DualSense)|Se recomienda DS4Windows para compatibilidad total|DualSense funciona en juegos con soporte nativo',
     helpOther:'Otros (8BitDo etc.)',
     helpTitle:'Cómo conectar un mando',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
-    helpTip:'💡 Conecta el mando ANTES de abrir el sitio, o presiona cualquier botón después de conectar. Si no funciona — recarga la página.'
+    helpOtherList:'Cambia el mando al modo Xbox (si tiene interruptor)|Conecta por USB o Bluetooth|Para Bluetooth: presiona el botón Pair|La mayoría de mandos se detectan como Xbox 360 — es normal',
+    helpTip:'💡 Conecta el mando ANTES de abrir el sitio, o presiona cualquier botón después de conectar. Si no funciona — recarga la página.',
+    socialMail:'Correo',
+
   },
   ja: {
     title:'ゲームパッドテスター',statusWaiting:'ゲームパッド待機中',statusConnected:'接続済み',
@@ -789,17 +813,19 @@ const LANG = {
     triggers:'トリガー',buttons:'ボタン',pressed:'押下中',total:'全ボタン',
     footerMade:'製作',
     authorName:'Kirill Sorokin',
-    ctrlSelect:'SELECT',ctrlShare:'SHARE',ctrlStart:'START',ctrlOptions:'OPTIONS',
+    ctrlSelect:'選択',ctrlShare:'共有',ctrlStart:'開始',ctrlOptions:'オプション',
     connectedAs:'接続方式',
     hint:'ほとんどのゲームパッドはXbox 360として認識されます — 正常です。',
     helpXbox:'Xbox',
-    helpXboxList:'Connect USB cable — Windows detects automatically|Press sync button on the gamepad for Bluetooth|Start → Bluetooth → Add → Xbox Wireless Controller|Or use Xbox Wireless Adapter for PC',
+    helpXboxList:'USBケーブルを接続 — Windowsが自動認識|Bluetoothの場合はゲームパッドの同期ボタンを長押し|スタート → Bluetooth → デバイスの追加 → Xbox Wireless Controller|またはXbox Wireless Adapter for PCを使用',
     helpPS:'PlayStation',
-    helpPSList:'Connect USB — Windows detects as audio device|Bluetooth: hold PS + Share (DS4) or Create + PS (DualSense)|DS4Windows recommended for full compatibility|DualSense works in games with native support',
+    helpPSList:'USB接続 — Windowsがオーディオデバイスとして認識|Bluetooth：PS + Share（DS4）またはCreate + PS（DualSense）を長押し|完全互換にはDS4Windows推奨|DualSenseはネイティブ対応のゲームで動作',
     helpOther:'その他 (8BitDoなど)',
     helpTitle:'ゲームパッドの接続方法',
-    helpOtherList:'Switch gamepad to Xbox mode (if switch available)|Connect USB or Bluetooth|For Bluetooth: press Pair button|Most gamepads detect as Xbox 360 — this is normal',
-    helpTip:'💡 サイトを開く前にゲームパッドを接続するか、接続後に任意のボタンを押してください。動作しない場合はページを再読み込みしてください。'
+    helpOtherList:'ゲームパッドをXboxモードに切り替え（スイッチがある場合）|USBまたはBluetoothで接続|Bluetoothの場合：Pairボタンを長押し|ほとんどのゲームパッドはXbox 360として認識されます — 正常です',
+    helpTip:'💡 サイトを開く前にゲームパッドを接続するか、接続後に任意のボタンを押してください。動作しない場合はページを再読み込みしてください。',
+    socialMail:'メール',
+
   }
 };
 
@@ -819,8 +845,12 @@ const dom = {
   lx:$('lx'),ly:$('ly'),rx:$('rx'),ry:$('ry'),
   lt:$('lt'),rt:$('rt'),btnCount:$('btnCount'),btnTotal:$('btnTotal'),
   centerLabels:$('centerLabels'),
+  vibeBtn:$('vibeBtn'),
   tabs:document.querySelectorAll('.tab'),
 };
+
+// vibration state
+let vibing = false;
 
 // ===== LAYOUT CONFIG =====
 // [bottom, left, right, top] — order matches face[] indexing
@@ -874,7 +904,9 @@ function applyLang(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
 
+  document.title = t.title;
   document.documentElement.lang = lang;
+  localStorage.setItem('gp-lang', lang);
 
   // help section lists
   const helpKey = k => k === 'ps' ? 'PS' : k.charAt(0).toUpperCase() + k.slice(1);
@@ -952,6 +984,24 @@ function applyLayout(layout) {
     if (el.classList.contains('ax-trigger-l')) el.textContent = cfg.labels.lt;
     if (el.classList.contains('ax-trigger-r')) el.textContent = cfg.labels.rt;
   });
+
+  // PS layout: D-pad on top, left stick below (like real DualShock/DualSense)
+  const colLeft = document.querySelector('.col-left');
+  const stickWrap = colLeft?.querySelector('.stick-wrap');
+  const dpad = colLeft?.querySelector('.dpad');
+  if (colLeft && stickWrap && dpad) {
+    if (layout === 'playstation') {
+      // D-pad first, then stick
+      if (colLeft.firstElementChild !== dpad) {
+        colLeft.insertBefore(dpad, stickWrap);
+      }
+    } else {
+      // Stick first, then D-pad
+      if (colLeft.firstElementChild !== stickWrap) {
+        colLeft.insertBefore(stickWrap, dpad);
+      }
+    }
+  }
 }
 
 // ===== DETECT LAYOUT =====
@@ -1009,6 +1059,7 @@ function updateGamepad() {
       const ax = idx === 0 ? [lx, ly] : [rx, ry];
       el.classList.toggle('active', Math.abs(ax[0]) > 0.08 || Math.abs(ax[1]) > 0.08);
     });
+
   }
 
   // trigger values
@@ -1099,6 +1150,27 @@ function init() {
     helpOverlay.addEventListener('click', (e) => { if (e.target === helpOverlay) closeHelp(); });
   }
 
+  // vibration test — 3-phase pattern
+  async function vibePattern(act) {
+    vibing = true; dom.vibeBtn.classList.add('vibing');
+    try {
+      // 1) strong short burst
+      await act.playEffect('dual-rumble',{startDelay:0,duration:150,weakMagnitude:1,strongMagnitude:1});
+      // 2) medium rumble
+      await act.playEffect('dual-rumble',{startDelay:0,duration:300,weakMagnitude:0.6,strongMagnitude:0.4});
+      // 3) long fade-out
+      await act.playEffect('dual-rumble',{startDelay:0,duration:600,weakMagnitude:0.3,strongMagnitude:0.15});
+    } catch(e) {}
+    vibing = false; dom.vibeBtn.classList.remove('vibing');
+  }
+  dom.vibeBtn.addEventListener('click', () => {
+    if (vibing || gamepadIndex < 0) return;
+    const gp = navigator.getGamepads?.()?.[gamepadIndex];
+    const act = gp?.vibrationActuator;
+    if (!act) { dom.vibeBtn.textContent = '✖'; setTimeout(()=>dom.vibeBtn.textContent='📳',1500); return; }
+    vibePattern(act);
+  });
+
   // gamepad events
   window.addEventListener('gamepadconnected', onGamepadConnected);
   window.addEventListener('gamepaddisconnected', onGamepadDisconnected);
@@ -1123,9 +1195,10 @@ function init() {
   }
   setTimeout(checkExisting, 300);
 
-  // defaults
+  // defaults with language restore
+  const savedLang = localStorage.getItem('gp-lang') || 'ru';
   applyLayout('xbox');
-  applyLang('ru');
+  applyLang(savedLang);
 }
 
 document.addEventListener('DOMContentLoaded', init);
